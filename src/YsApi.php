@@ -913,6 +913,45 @@ class YsApi
     }
 
     /**
+     * Modifie les informations d'un signataire
+     *
+     * @param $token
+     * @param array $signerData (firstName, lastName, mail, phone, proofLevel, authenticationMode)
+     * @return bool|mixed
+     */
+    public function updateCosigner($token, array $signerData)
+    {
+        $expectedData = array_intersect_key($signerData, array(
+            'firstName' => '',
+            'lastName' => '',
+            'mail' => '',
+            'phone' => '',
+            'proofLevel' => '',
+            'authenticationMode' => ''
+        ));
+
+        if(count($expectedData) === 0) {
+            throw new \Exception('Data signer are empty or not correct');
+        }
+
+        $params = array (
+            'token' => $token,
+            'cosignerInfos' => $expectedData,
+        );
+
+        $this->client = $this->setClientSoap($this->URL_WSDL_COSIGN);
+        $result = $this->client->call('updateCosigner', $params, self::API_NAMESPACE, self::API_NAMESPACE, $this->createHeaders(true));
+
+        $this->errors = array();
+        if($this->client->fault) {
+            $this->errors[] = $this->client->faultstring;
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
      * Retourne l'état d'authentification de l'utilisateur courant.
      *
      * @return bool
