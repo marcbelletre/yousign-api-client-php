@@ -16,6 +16,13 @@ class YsApi
     const IFRAME_URL_PROD = 'https://yousign.fr';
 
     /**
+     * Constantes sur la protection d'un fichier
+     */
+    const DOCUMENT_NOT_LOCKED   = 'not_locked';
+    const DOCUMENT_NEED_PASSWD  = 'need_passwd';
+    const DOCUMENT_IS_LOCKED    = 'is_locked';
+
+    /**
      * URL d'accès au WSDL de l'API Yousign d'authentification.
      *
      * @var string
@@ -864,6 +871,45 @@ class YsApi
                 return $result;
             }
         }
+    }
+
+    /**
+     * Vérifie si un pdf nécessite un mot de passe ou non
+     * Et si ce dernier est signable ou non
+     *
+     * @param $pathfile
+     * @param string $password
+     * @return bool|mixed
+     * @throws \Exception
+     */
+    public function isPDFSignable($pathfile, $password = '')
+    {
+        if(!file_exists($pathfile)) {
+            throw new \Exception('File not found');
+        }
+
+        $params = array (
+            'pdfFile' => base64_encode(file_get_contents($pathfile)),
+            'pdfPassword' => $password
+        );
+
+        $this->client = $this->setClientSoap($this->URL_WSDL_COSIGN);
+        $this->client->call('isPDFSignable', $params, self::API_NAMESPACE, self::API_NAMESPACE, $this->createHeaders(false));
+
+        $this->errors = array();
+        if($this->client->fault)
+        {
+            if(preg_match('/Error 100 :/i', $this->client->faultstring))
+                return self::DOCUMENT_NEED_PASSWD;
+
+            if(preg_match('/Error 101 :/i', $this->client->faultstring))
+                return self::DOCUMENT_IS_LOCKED;
+
+            $this->errors[] = $this->client->faultstring;
+            return false;
+        }
+
+        return self::DOCUMENT_NOT_LOCKED;
     }
 
     /**
