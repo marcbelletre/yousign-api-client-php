@@ -952,6 +952,35 @@ class YsApi
     }
 
     /**
+     * Permet d'ajouter pour un signataire et un document, un texte obligatoire à rédiger par le signataire
+     *
+     * @param $token
+     * @param $idFile
+     * @param $contentText
+     * @param bool|true $status
+     */
+    public function addTextToWrite($token, $idFile, $contentText, $status = true)
+    {
+        $params = array (
+            'token' => $token,
+            'idFile' => (int) $idFile,
+            'text' => $contentText,
+            'status' => $status
+        );
+
+        $this->client = $this->setClientSoap($this->URL_WSDL_COSIGN);
+        $result = $this->client->call('addTextToWrite', $params, self::API_NAMESPACE, self::API_NAMESPACE, $this->createHeaders(false));
+
+        $this->errors = array();
+        if($this->client->fault) {
+            $this->errors[] = $this->client->faultstring;
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
      * Retourne l'état d'authentification de l'utilisateur courant.
      *
      * @return bool
