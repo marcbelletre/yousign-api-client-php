@@ -1101,17 +1101,13 @@ class YsApi
      * FIN WEB SERVICES D'ARCHIVAGE
      ***********************************************************/
 
-    /***********************************************************
-     * METHODES PRIVEES
-     ***********************************************************/
-
     /**
      * Permet de mettre en place le client de la requête en fonction du WSDL.
      *
      * @param $urlWsdl
      * @return \nusoap_client
      */
-    private function setClientSoap($urlWsdl)
+    protected function setClientSoap($urlWsdl)
     {
         // Instanciation du client SOAP
         $this->client = new \nusoap_client($urlWsdl, false, false, false, false, false, 0, 1000);
@@ -1149,6 +1145,10 @@ class YsApi
 
         return $this->client;
     }
+
+    /***********************************************************
+     * METHODES PRIVEES
+     ***********************************************************/
 
     /**
      * Permet de générer les headers nécessaire à l'authentification de l'utilisateur final.
