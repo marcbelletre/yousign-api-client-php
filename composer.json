@@ -1,0 +1,24 @@
+{
+    "name": "yousign/php-simple-client",
+    "description": "This is simple client for the soap api v1 of Yousign",
+    "type": "library",
+    "version": "2.0.0",
+    "autoload": {
+        "psr-0": {
+            "Yousign": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    },
+    "authors": [
+        {
+            "name": "Kevin Auvinet",
+            "email": "kevin@yousign.fr"
+        }
+    ],
+    "minimum-stability": "stable"
+}
