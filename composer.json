@@ -2,7 +2,7 @@
     "name": "yousign/yousign-api-client",
     "description": "This is simple client for the soap api v1 of Yousign",
     "type": "library",
-    "version": "2.0.0",
+    "version": "2.0.2",
     "autoload": {
         "psr-0": {
             "Yousign": "src/"
