@@ -26,26 +26,13 @@ class ClientFactory
     }
 
     /**
+     * @param array $options
      * @return Client
      */
-    public function createClient()
+    public function createClient($options = array())
     {
         $client = new Client();
         foreach(Services::listing() as $service) {
-            $options = array();
-
-            if(!$this->environment->isSslEnable()) {
-                $options = array(
-                    'stream_context' => stream_context_create(array(
-                        'ssl' => array(
-                            'verify_peer' => false,
-                            'verify_peer_name' => false,
-                            'allow_self_signed' => true
-                        )
-                    )
-                ));
-            }
-
             $wsdl = sprintf('%s/%s/%s?wsdl', $this->environment->getHost(), $service, $service);
             $soapClient = new \SoapClient($wsdl, $options);
 

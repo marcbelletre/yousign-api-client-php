@@ -18,11 +18,6 @@ class Environment
     );
 
     /**
-     * @var bool
-     */
-    private $sslEnable = true;
-
-    /**
      * @var string
      */
     private $environment;
@@ -47,21 +42,5 @@ class Environment
     public function getHost()
     {
         return $this->mappingHosts[$this->environment];
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isSslEnable()
-    {
-        return $this->sslEnable;
-    }
-
-    /**
-     * @param boolean $sslEnable
-     */
-    public function setSslEnable($sslEnable)
-    {
-        $this->sslEnable = $sslEnable;
     }
 }
