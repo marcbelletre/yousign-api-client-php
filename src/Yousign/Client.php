@@ -114,7 +114,8 @@ class Client
      * @return mixed|null
      */
     public function getSoapClient($name) {
-        return $this->clients[$name] ?? null;
+        return isset($this->clients[$name]) ?
+            $this->clients[$name] : null;
     }
 
     /**
