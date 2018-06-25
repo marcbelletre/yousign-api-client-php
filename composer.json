@@ -9,8 +9,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3",
-        "nusphere/nusoap": "0.9.6"
+        "php": ">=7.0",
+        "codecasts/nusoap-php7": "^0.9.7"
     },
     "autoload" : {
         "psr-4": {"YousignAPI\\": "src/"}
